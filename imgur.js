@@ -1,23 +1,24 @@
 
-var page=10;
-var init = 0
+var page = 1
 
 let pushh = document.getElementById("one")
 window.addEventListener("scroll",()=>{
-    const {scrollTop , scrollHeight ,clientHeight} = document.documentElement;
+    const {scrollHeight} = document.documentElement;
 
-    //console.log(scrollTop + clientHeight >= scrollHeight-5)
-    if(scrollTop + clientHeight >= scrollHeight-5){
-        let loading = document.getElementById("two")
+    
+    let loading = document.getElementById("two")
+    if(window.scrollY + window.innerHeight >= scrollHeight){
+        
         loading.innerText = "...Loading"
-        page =page+10;
-        display(page);
-        loading.innerText = "Done with data"
+        console.log("aaa")
+        display();
+        
     }
+    
 })
 
 
-//suggestin function for search bar
+// suggestin function for search bar
 async function Throttle(){
     let inpshow = document.getElementById("inpshow");
     let val = document.getElementById("take").value
@@ -27,30 +28,32 @@ async function Throttle(){
         return false
     }
 
-    let data = await fetch(`https://g.tenor.com/v1/search?q=${val}&key=YXRA300Y2S6J&limit=${page}`);
+    let data = await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=ed47e1f3&s=${val}&page=${page}`);
     data = await data.json() 
 
     // data = data.results.slice(init,page);
     // init = init + page;
-    inpshow.style.display = "block";
+    
 
-    data.results.map((el)=>{
+    if(data.Response === "False"){
+        inpshow.innerText = "No results found"
+        return
+    }
+    data.Search.map((el)=>{
         let section = document.createElement("div");
         section.setAttribute("style","padding:10px;")
         section.setAttribute("id","section");
+        console.log(el.Title)
         section.addEventListener("click",()=>{
-            document.getElementById("take").value = el.content_description;
+            document.getElementById("take").value = el.Title;
             inpshow.style.display = "none";
         })
-        section.innerText = el.content_description
+        section.innerText = el.Title
         inpshow.append(section)
     })
 
-    if(!data.results[0]){
-        inpshow.innerText = "No results found"
-    }
+    inpshow.style.display = "block";
 
-    console.log(data)
     
     return data;
 }
@@ -89,9 +92,8 @@ click.addEventListener("click",async ()=>{
     let inpshow = document.getElementById("inpshow");
     pushh.innerHTML = "";
     inpshow.style.display = "none";
-    init=0;
-    page=10
-    display(page)
+    page=1
+    display()
 })
 
 //to remove the pop div during search
@@ -112,20 +114,23 @@ function add(){
 
 
 //function that displays in html
-async function display(page){
+async function display(){
 
     let loading = document.getElementById("two")
 
     let vall = document.getElementById("take").value;
     
-
-    let data = await fetch(`https://g.tenor.com/v1/search?q=${vall || "smile"}&key=YXRA300Y2S6J&limit=${page}`);
+   
+    let data = await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=ed47e1f3&s=${vall || "star"}&page=${page}`);
     data = await data.json() 
-    console.log(vall,"aaa",data)
-    data = data.results.slice(init,page);
-    init = init + page;
+    if(!data[0]){
+        let loading = document.getElementById("two");
+        loading.innerText = "Done Loading"
+    }
+    console.log(page)
+    data = data.Search
     document.getElementById("take").value = ""
-    
+    page++;
     for(var i=0 ; i<data.length ; i++){
         let mainDiv = document.createElement("div");
         var sett = "margin-bottom:15px;margin-left:15px;border-radius:10px"
@@ -134,7 +139,7 @@ async function display(page){
         let img = document.createElement("img");
         
         
-        img.setAttribute("src",data[i].media[0].gif.url);
+        img.setAttribute("src",data[i].Poster);
         var clas = "width:100%;border-top-left-radius: 5px;border-top-right-radius: 5px"
         img.setAttribute("style",clas)
 
@@ -142,7 +147,7 @@ async function display(page){
         var back = "background-color:rgb(71,74,81);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;margin-top:-5px"
         div1.setAttribute("style",back)
         let div11 = document.createElement("div");
-        div11.innerText = data[i].content_description;
+        div11.innerText = data[i].Title;
         div11.setAttribute("style","color:white;margin-left:10px;padding:10px;font-family:Proxima Nova Regular, Helvetica Neue, Helvetica, Arial, sans-serif;font-size:15px");
         let img12 = document.createElement("img");
         img12.setAttribute("src","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXrsf18l9O4do3h0pbsR9N0LxpMJkMXGBWzQ&usqp=CAU")
@@ -162,8 +167,8 @@ async function display(page){
         mainDiv.append(img,div1);
 
         pushh.append(mainDiv)
-
+        
     }
 }
 
-display(page)
+display()
