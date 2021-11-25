@@ -1,7 +1,10 @@
 .topBack{
-    background-image: url("https://s.imgur.com/desktop-assets/desktop-assets/homebg.e52b5cdf24f83bcd55f9f1318855f2ef.png");
-    height: 370px;
-    padding:15px
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs6pE1_lT_qNO0r3P4sa7df6Q8dm7VF9a-VQ&usqp=CAU");
+    height: 710px;
+    width: 100%;
+    padding:15px;
+    background-repeat: no-repeat;
+    background-size: cover;
 } 
 
 .newPost{
@@ -22,7 +25,7 @@
     height: 35px;
     width: 538px;
     border-radius: 3px;
-    margin-left: 44%;
+    margin-left: 74%;
     font-family: "Proxima Nova Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 18px;
@@ -156,14 +159,14 @@ input:focus{
     /* grid-template-columns: 18.3% 18.3% 18.3% 18.3% 18.3%; */
     /* align-items: flex-start; */
     /* min-height: 0; */
-    margin-left: 98px;
-    margin-right: 118px;
+    margin-left: 498px;
+    margin-right: 518px;
     /* grid-row: 2; */
   /* grid-column: 1; */
   /* justify-self: start; */
   /* grid-row: 1 / -1; */
     /* grid-column: 1; */
-    column-count: 5;
+    column-count: 1;
     column-gap: 10px;
    
 }
@@ -179,7 +182,7 @@ input:focus{
     background-color: rgb(76, 81, 88);
     position: fixed;
     top: 60px;
-    left: 488px;
+    left: 510px;
     border-radius: 5px;
     padding:15px;
     width: 518px;
